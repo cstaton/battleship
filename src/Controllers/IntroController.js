@@ -7,7 +7,7 @@ class IntroController {
 
 	setNumberOfHumanPlayers(data) {
 		this.implementation.setupPlayers(data);
-		console.log(this.implementation);
+		this.router.goTo('setupShips');
 	}
 }
 
