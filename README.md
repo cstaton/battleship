@@ -1,8 +1,6 @@
 # Battleship on the Command Line
---
 
 ## Getting Started
---
 * This is a Javascript implementation without using any 
 open source frameworks or libraries.
 * In order to get started you must have Node installed on your local machine
@@ -19,7 +17,7 @@ have any permission issues it may require a ```chmod +x start.js```
 
 ---
 
-##Rules of the game
+## Rules of the game
 * Once started, you can either play as two Human players or
 you can play against the Robot Computer.
 * The game will instruct you on how to set up your ships and to attack your
@@ -29,7 +27,7 @@ you can play against the Robot Computer.
 * Placing a ship: the game will ask you for the starting coordinate on the board 
 and will ask for a direction in which to place the ship
 
-##Ships
+## Ships
 * there are three ships by default.
 
     * Battleship which has 4 spaces 
@@ -41,7 +39,7 @@ differently, please take a look at the implementation.js under
 the services directory and you can either remove/add ships
 which are currently hardcoded.
 
-##Attacks
+## Attacks
 * Once the ships are placed on the board you will
 alternate between players to take turns attacking the 
 opponents ships.
