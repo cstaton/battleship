@@ -27,7 +27,7 @@ class GamePlayController {
 
 	robotAttack() {
 		const randomBoardCell = this.implementation.getRandomBoardCell(this.currentPlayer);
-		this.attack(randomBoardCell);
+		return this.attack(randomBoardCell);
 	}
 
 	getOtherPlayer() {

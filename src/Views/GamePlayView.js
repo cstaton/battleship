@@ -37,9 +37,13 @@ class GamePlayView extends BaseView {
 			);
 		} else {
 			console.log('Computer Player Turn!');
-			this.controller.robotAttack();
-			this.controller.setNextPLayer();
-			this.render();
+			const playerWon = this.controller.robotAttack();
+			if (playerWon) {
+        console.log('Congratulations Player ' + this.controller.currentPlayer.number + '! You won the game!');
+      } else {
+        this.controller.setNextPLayer();
+        this.render();
+      }
 		}
 
 	}
