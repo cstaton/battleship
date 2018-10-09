@@ -30,10 +30,14 @@ class BaseView {
 	}
 
 	validNumber(num, boardSize) {
-		if (isNaN(num) !== false || num <= 0 || num > boardSize) {
-			return false;
+		const mustBeANumber = isNaN(num) === false;
+		num = +num;
+		const mustBeOnBoard = num <= boardSize;
+		const mustBePositive = num >= 1;
+		if (mustBeOnBoard && mustBePositive && mustBeANumber) {
+			return true;
 		}
-		return true;
+		return false
 	}
 
 	validateCoordinates(data, boardSize) {

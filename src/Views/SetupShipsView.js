@@ -6,10 +6,6 @@ class SetupShipsView extends BaseView {
 	constructor(controller) {
 		super(controller);
 		this.controller = controller;
-		this.state = {
-			currentPlayer: null,
-			currentShip: null,
-		};
 		this.validateStartingCoordinates = this.validateStartingCoordinates.bind(this);
 		this.validateDirection = this.validateDirection.bind(this);
 		this.addShip = this.addShip.bind(this);
@@ -19,8 +15,8 @@ class SetupShipsView extends BaseView {
 	validateDirection(data) {
 		if (data === 'L' || data === 'R' || data === 'U' || data === 'D' ) {
 			try {
-				this.state.currentShip.setDirection(data);
-				this.controller.addShipToBoard(this.state.currentPlayer, this.state.currentShip);
+				this.controller.currentShip.setDirection(data);
+				this.controller.addShipToBoard(this.controller.currentPlayer, this.controller.currentShip);
 				this.render();
 			} catch (error) {
 				console.log('\n\n\n\n');
@@ -37,10 +33,10 @@ class SetupShipsView extends BaseView {
 	}
 
 	validateStartingCoordinates(data) {
-		let boardCell = this.validateCoordinates(data, this.state.currentPlayer.board.boardSize);
+		let boardCell = this.validateCoordinates(data, this.controller.currentPlayer.board.boardSize);
 
 		if (boardCell) {
-			this.state.currentShip.setStartingCell(boardCell);
+			this.controller.currentShip.setStartingCell(boardCell);
 			return this.prompt(
 				'Please enter a direction for your ship: \n L = Left \n R = Right \n U = Up \n D = Down',
 				this.validateDirection
@@ -55,12 +51,10 @@ class SetupShipsView extends BaseView {
 	}
 
 	addShip() {
-		if (this.state.currentPlayer.isHuman) {
-			// const Board = new BoardComponent(this.state.currentPlayer.board);
-			// Board.render();
+		if (this.controller.currentPlayer.isHuman) {
 			this.prompt(
-				"Player " + this.state.currentPlayer.number + ": Please add your " +
-				this.state.currentShip.name + " to the board. column-row\n" +
+				"Player " + this.controller.currentPlayer.number + ": Please add your " +
+				this.controller.currentShip.name + " to the board. column-row\n" +
 				"Enter Starting coordnates as such: 1-2",
 				this.validateStartingCoordinates
 			);
@@ -68,11 +62,7 @@ class SetupShipsView extends BaseView {
 			//Robot Player adding ships
 			console.log('Computer Player is setting ship!\n');
 			try {
-				let boardCell = this.controller.getRandomBoardCell(this.state.currentPlayer);
-				this.state.currentShip.setStartingCell(boardCell);
-				let randomDirection = this.controller.getRandomDirection();
-				this.state.currentShip.setDirection(randomDirection);
-				this.controller.addShipToBoard(this.state.currentPlayer, this.state.currentShip);
+				this.controller.setRobotPlayerShip();
 				this.render();
 			} catch (error) {
 				console.log(error);
@@ -83,15 +73,13 @@ class SetupShipsView extends BaseView {
 
 	render() {
 		if (this.controller.queue.length) {
-			let queueItem = this.controller.queue.shift();
-			this.state.currentShip = queueItem['ship'];
-			this.state.currentPlayer = queueItem['player'];
-			const Board = new BoardComponent(this.state.currentPlayer.board);
-			Board.render();
+			this.controller.processQueueItem();
+			const boardComponent = new BoardComponent(this.controller.currentPlayer.board);
+			boardComponent.render();
 			this.addShip();
 		} else {
-			const Board = new BoardComponent(this.state.currentPlayer.board);
-			Board.render();
+			const boardComponent = new BoardComponent(this.controller.currentPlayer.board);
+			boardComponent.render();
 			console.log("Let's Begin the Game!");
 			console.log('Player 1 Goes first');
 			this.controller.goToGame();

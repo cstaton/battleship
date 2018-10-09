@@ -10,7 +10,7 @@ class GamePlayView extends BaseView {
 
 	validate(data) {
 		const board = this.controller.currentPlayer.board;
-		let boardCell = this.validateCoordinates(data, board.size);
+		let boardCell = this.validateCoordinates(data, board.boardSize);
 		if (boardCell) {
 			const playerWon = this.controller.attack(boardCell);
 			if (playerWon) {
@@ -29,11 +29,19 @@ class GamePlayView extends BaseView {
 	}
 
 	render() {
-		this.prompt(
-			"Player " + this.controller.currentPlayer.number + ": It's your turn to Attack! " +
-			"Enter Starting coordnates as such: 1-2",
-			this.validate
-		);
+		if (this.controller.currentPlayer.isHuman) {
+			this.prompt(
+				"Player " + this.controller.currentPlayer.number + ": It's your turn to Attack! " +
+				"Enter Starting coordnates as such: 1-2",
+				this.validate
+			);
+		} else {
+			console.log('Computer Player Turn!');
+			this.controller.robotAttack();
+			this.controller.setNextPLayer();
+			this.render();
+		}
+
 	}
 }
 

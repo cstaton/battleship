@@ -25,6 +25,11 @@ class GamePlayController {
 		}
 	}
 
+	robotAttack() {
+		const randomBoardCell = this.implementation.getRandomBoardCell(this.currentPlayer);
+		this.attack(randomBoardCell);
+	}
+
 	getOtherPlayer() {
 		if (this.currentPlayer.number === 1) {
 			return this.getPlayer(2);
